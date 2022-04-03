@@ -56,11 +56,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>>{
     #[allow(non_snake_case)]
     let mut Space = Client::builder(SpaceConfig::get_token())
         .event_handler(events::Handler)
-        .framework(commands::crete_framework())
+        .framework(commands::create_framework())
         .register_songbird()
         .await
         .expect("[BOT] Failed to start.");
 
+
+    database::create_database().await?;
     // let lava_client = LavalinkClient::builder(bot_id, SpaceConfig::get_token())
     //     .set_host("127.0.0.1")
     //     .set_password("root")

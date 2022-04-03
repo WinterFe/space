@@ -24,6 +24,10 @@ impl SpaceConfig {
         var("DB_USER").expect("[CFG] Failed to get DB Username")
     }
 
+    pub fn get_database_port() -> String {
+        var("DB_PORT").expect("[CFG] Failed to get DB Port")
+    }
+
     pub fn get_default_prefix() -> String {
         var("BOT_PREFIX").unwrap_or_else(|_| "s!".to_string())
     }

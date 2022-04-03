@@ -1,5 +1,6 @@
 mod image;
 mod util;
+mod moderation;
 
 use rand::{thread_rng, Rng};
 use serenity::{
@@ -31,7 +32,7 @@ use crate::{
     utils::constants::{colors, msg_emojis},
 };
 
-pub fn crete_framework() -> StandardFramework {
+pub fn create_framework() -> StandardFramework {
     StandardFramework::new()
         .configure(|x| {
             x.dynamic_prefix(move |ctx, msg| {
@@ -50,10 +51,10 @@ pub fn crete_framework() -> StandardFramework {
             .case_insensitivity(true)
             .owners(vec![UserId(683530527239962627)].into_iter().collect())
         })
-        .group(&util::UTIL_GROUP)
-        // .group(&moderation::MODERATION_GROUP)
+        // .group(&util::UTIL_GROUP)
         // .group(&weeb::WEEB_GROUP)
         // .group(&config::CONFIG_GROUP)
+        .group(&moderation::MODERATION_GROUP)
         .group(&image::IMAGE_GROUP)
         // .group(&nsfw::NSFW_GROUP)
         // .group(&about::ABOUT_GROUP)
@@ -169,15 +170,10 @@ async fn help(
                         }
                     }
 
-                    let images = vec![
-                        "https://i.imgur.com/vg0z9yT.jpg",
-                        "https://i.imgur.com/AUpMkBP.jpg",
-                    ];
+                    // let random = thread_rng().gen_range(0..images.len());
 
-                    let random = thread_rng().gen_range(0..images.len());
-
-                    embed.image(images[random]);
-                    embed.title(format!("More info for {}", cmd.options.names[0]));
+                    // embed.image(images[random]);
+                    embed.title(format!("Command: {}", cmd.options.names[0]));
                     let mut footer = CreateEmbedFooter::default();
                     footer.text("<> is required, [] is optional");
                     embed.set_footer(footer);
@@ -332,7 +328,7 @@ async fn after_command(ctx: &Context, msg: &Message, name: &str, why: CommandRes
             msg_emojis::TICKNO,
             name,
             why,
-            "Fifi#2000"
+            "AceFifi#2000"
         ));
         embed.color(colors::RED);
 

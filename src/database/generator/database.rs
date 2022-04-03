@@ -3,6 +3,8 @@ use mysql::{prelude::Queryable, Error, PooledConn};
 use crate::config::SpaceConfig;
 
 pub async fn gen_database(conn: &mut PooledConn) -> Result<(), Error> {
+    conn.query_drop(r"CREATE DATABASE IF NOT EXISTS space")?;
+
     conn.query_drop(format!(
         r"
         CREATE TABLE IF NOT EXISTS guilds (
