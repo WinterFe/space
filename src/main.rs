@@ -57,7 +57,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>>{
     let mut Space = Client::builder(SpaceConfig::get_token())
         .event_handler(events::Handler)
         .framework(commands::create_framework())
-        .register_songbird()
         .await
         .expect("[BOT] Failed to start.");
 

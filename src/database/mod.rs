@@ -4,7 +4,7 @@
 pub mod functions;
 mod generator;
 pub mod models;
-use mysql::{Error, Pool, PooledConn};
+use mysql::{prelude::Queryable, Error, Pool, PooledConn};
 use crate::config::SpaceConfig;
 
 #[allow(unused_imports)]
@@ -39,6 +39,18 @@ pub async fn create_database() -> Result<(), Error> {
         Err(err) => {
             if let Error::MySqlError(err) = err {
                 if err.code == 1049 {
+
+                    let opts = mysql::OptsBuilder::new()
+                        .ip_or_hostname(Some(format!("{}", SpaceConfig::get_database_host())))
+                        .pass(Some(format!("{}", SpaceConfig::get_database_pass())))
+                        .user(Some(format!("{}", SpaceConfig::get_database_user())))
+                        .tcp_port(5432)
+                        .db_name(Some(format!("{}", SpaceConfig::get_database_name())));
+
+                    let pool = Pool::new(opts)?;
+                    let mut conn = pool.get_conn()?;
+                    conn.query_drop(r"CREATE DATABASE IF NOT EXISTS Space")?;
+
                     get_database_connection().await?
                 } else {
                     return Err(err.into());
