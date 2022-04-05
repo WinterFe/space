@@ -10,12 +10,12 @@ pub mod colors {
 }
 
 pub mod emojis {
-    pub const CHECK: &str = "white_check_mark";
-    pub const ENABLED: &str = "TickYes";
-    pub const DISABLED: &str = "tickno";
+    pub const CHECK: &str = "✅";
+    pub const ENABLED: &str = "✅";
+    pub const DISABLED: &str = "❌";
 }
 
 pub mod msg_emojis {
-    pub const TICKYES: &str = "<:TickYes:594764024864833547>";
-    pub const TICKNO: &str = "<:tickno:623614110541676550>  ";
+    pub const TICKYES: &str = "✅";
+    pub const TICKNO: &str = "❌";
 }
