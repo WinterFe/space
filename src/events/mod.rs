@@ -19,7 +19,7 @@ impl EventHandler for Handler {
         loop_status_update(ctx).await;
     }
 
-    async fn message(&self, ctx: Context, new_message: Message) {
-        auto_ban_users(ctx, new_message).await;
-    }
+//     async fn message(&self, ctx: Context, new_message: Message) {
+//         auto_ban_users(ctx, new_message).await;
+//     }
 }
