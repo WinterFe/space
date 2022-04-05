@@ -15,7 +15,7 @@ use crate::utils::{
 
 #[group]
 #[commands(ping)]
-#[description("Util 🛠️- Essential/Utility Commands")]
+#[description("Util 🛠️ - Essential/Utility Commands")]
 pub struct Util;
 
 #[command("ping")]

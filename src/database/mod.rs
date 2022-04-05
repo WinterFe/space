@@ -4,10 +4,7 @@
 pub mod functions;
 mod generator;
 pub mod models;
-
 use mysql::{Error, Pool, PooledConn};
-// use redis::*;
-
 use crate::config::SpaceConfig;
 
 #[allow(unused_imports)]
@@ -20,12 +17,6 @@ pub async fn get_database_connection() -> Result<PooledConn, Error> {
         match &CONNECTION {
             Some(pool) => Ok(pool.get_conn()?),
             None => {
-                // let connection_string = format!(
-                //     "{}/{}",
-                //     SpaceConfig::get_database_connection_string(),
-                //     SpaceConfig::get_database_name()
-                // );
-
                 let opts = mysql::OptsBuilder::new()
                     .ip_or_hostname(Some(format!("{}", SpaceConfig::get_database_host())))
                     .pass(Some(format!("{}", SpaceConfig::get_database_pass())))

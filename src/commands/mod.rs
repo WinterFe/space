@@ -80,7 +80,7 @@ async fn help(
         let mut embed = CreateEmbed::default();
         embed.title("Available Commands");
         embed.description("To get more info on a command, type `help {command}`");
-        // embed.image("https://i.imgur.com/mQVFSrP.gif");
+        embed.image("https://lunardev.group/spEm.gif");
         embed.color(colors::PURPLE);
 
         for group in groups.iter() {
@@ -122,7 +122,7 @@ async fn help(
         embed.color(colors::PURPLE);
 
         if cmd_name == "help" {
-            // embed.image("https://i.imgur.com/vg0z9yT.jpg");
+            embed.image("https://lunardev.group/spEm.gif");
             embed.title("More info for help");
             embed.description("The help command provides a list of all usable commands.");
             embed.field("Use", format!("`{0}help <command>*`", prefix), false);
@@ -170,9 +170,13 @@ async fn help(
                         }
                     }
 
-                    // let random = thread_rng().gen_range(0..images.len());
+                    let images = vec![
+                        "https://lunardev.group/spEm.gif",
+                    ];
 
-                    // embed.image(images[random]);
+                    let random = thread_rng().gen_range(0..images.len());
+
+                    embed.image(images[random]);
                     embed.title(format!("Command: {}", cmd.options.names[0]));
                     let mut footer = CreateEmbedFooter::default();
                     footer.text("<> is required, [] is optional");

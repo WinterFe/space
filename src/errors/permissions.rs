@@ -54,7 +54,7 @@ pub async fn error_permission(ctx: &Context, msg: &Message, permissions: Permiss
                             "Use Slash Commands" => "Use Slash Commands",
                             "Use Voice Activity" => "Use Voice Activity",
                             "View Audit Log" => "View Audit Log",
-                            _ => "Unknown Permission(s)",
+                            _ => "Unknown Perm(s)",
                         })
                         .collect::<Vec<&str>>()
                 };
@@ -63,21 +63,21 @@ pub async fn error_permission(ctx: &Context, msg: &Message, permissions: Permiss
                 let has_not_perm = match_names(has_not_perm.get_permission_names());
 
                 let has_perm = has_perm.iter().fold("".to_string(), |result, item| {
-                    format!("{} <:{}> {}\n", result, emojis::ENABLED, item)
+                    format!("{} {} {}\n", result, emojis::ENABLED, item)
                 });
                 let has_not_perm = has_not_perm.iter().fold("".to_string(), |result, item| {
-                    format!("{} <:{}> {}\n", result, emojis::DISABLED, item)
+                    format!("{} {} {}\n", result, emojis::DISABLED, item)
                 });
 
                 let perms = format!("{}{}", has_perm, has_not_perm);
 
                 let mut embed = CreateEmbed::default();
-                embed.title("Please check permissions");
+                embed.title("Error - Missing Perms:");
                 embed.description(perms);
-                embed.color(colors::YELLOW);
+                embed.color(colors::RED);
 
                 let mut footer = CreateEmbedFooter::default();
-                footer.text("All must be active");
+                footer.text("I need all the listed perms!");
                 embed.set_footer(footer);
 
                 msg.channel_id
