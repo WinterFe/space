@@ -1,12 +1,13 @@
+mod autoban;
 mod status;
 
 use serenity::{
     async_trait,
     client::{Context, EventHandler},
-    model::prelude::Ready,
+    model::{channel::Message, prelude::Ready},
 };
 
-use crate::events::status::loop_status_update;
+use crate::events::{autoban::auto_ban_users, status::loop_status_update};
 
 pub struct Handler;
 
@@ -16,5 +17,9 @@ impl EventHandler for Handler {
         println!("{} is online", data_about_bot.user.tag());
 
         loop_status_update(ctx).await;
+    }
+
+    async fn message(&self, ctx: Context, new_message: Message) {
+        auto_ban_users(ctx, new_message).await;
     }
 }

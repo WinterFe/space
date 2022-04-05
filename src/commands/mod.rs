@@ -81,7 +81,7 @@ async fn help(
         embed.title("Available Commands");
         embed.description("To get more info on a command, type `help {command}`");
         embed.image("https://lunardev.group/spEm.gif");
-        embed.color(colors::PURPLE);
+        embed.color(colors::PINK);
 
         for group in groups.iter() {
             if !group.options.help_available {
