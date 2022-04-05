@@ -45,7 +45,7 @@ pub fn create_framework() -> StandardFramework {
                     Some(SpaceConfig::get_default_prefix())
                 })
             })
-            .prefix("")
+            .prefix("s!")
             .on_mention(Some(SpaceConfig::get_id_mention()))
             .no_dm_prefix(true)
             .case_insensitivity(true)

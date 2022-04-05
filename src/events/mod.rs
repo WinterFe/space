@@ -1,13 +1,12 @@
-mod autoban;
 mod status;
 
 use serenity::{
     async_trait,
     client::{Context, EventHandler},
-    model::{channel::Message, prelude::Ready},
+    model::prelude::Ready,
 };
 
-use crate::events::{autoban::auto_ban_users, status::loop_status_update};
+use crate::events::status::loop_status_update;
 
 pub struct Handler;
 
@@ -19,7 +18,7 @@ impl EventHandler for Handler {
         loop_status_update(ctx).await;
     }
 
-//     async fn message(&self, ctx: Context, new_message: Message) {
-//         auto_ban_users(ctx, new_message).await;
-//     }
+    //     async fn message(&self, ctx: Context, new_message: Message) {
+    //         auto_ban_users(ctx, new_message).await;
+    //     }
 }

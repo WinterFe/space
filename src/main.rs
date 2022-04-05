@@ -6,7 +6,6 @@ use serenity::{
     http::Http,
 };
 
-use songbird::SerenityInit;
 use log::*;
 
 // impl TypeMapKey for Lavalink {
