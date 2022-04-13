@@ -77,7 +77,7 @@ pub async fn error_permission(ctx: &Context, msg: &Message, permissions: Permiss
                 embed.color(colors::RED);
 
                 let mut footer = CreateEmbedFooter::default();
-                footer.text("I need all the listed perms!");
+                footer.text("All listed perms are required");
                 embed.set_footer(footer);
 
                 msg.channel_id
