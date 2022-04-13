@@ -7,14 +7,14 @@ pub struct DbGuild {
 
 pub enum DbGuildType {
     Normal = 0,
-    Space = 1,
+    Vip = 1,
     Owner = 2,
 }
 
 impl From<u32> for DbGuildType {
     fn from(el: u32) -> Self {
         match el {
-            1 => DbGuildType::Space,
+            1 => DbGuildType::Vip,
             2 => DbGuildType::Owner,
             _ => DbGuildType::Normal,
         }
@@ -25,7 +25,7 @@ impl From<DbGuildType> for u32 {
     fn from(el: DbGuildType) -> Self {
         match el {
             DbGuildType::Normal => 0,
-            DbGuildType::Space => 1,
+            DbGuildType::Vip => 1,
             DbGuildType::Owner => 2,
         }
     }
