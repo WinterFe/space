@@ -259,8 +259,9 @@ async fn dispatch_error(ctx: &Context, msg: &Message, err: DispatchError) {
 async fn normal_message(ctx: &Context, msg: &Message) {
     if let Some(guild) = msg.guild(ctx).await {
         let content = &msg.content;
-
-        if content.contains("<@!963691992641048606>") {
+        
+        // let fifi = ctx.http.get_user(683530527239962627);
+        if msg.mentions_user_id(683530527239962627) {
             let _ = msg.channel_id.say(ctx, "Testing auto-ban").await;
         }
 
