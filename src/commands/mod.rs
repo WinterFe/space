@@ -260,9 +260,9 @@ async fn dispatch_error(ctx: &Context, msg: &Message, err: DispatchError) {
 async fn normal_message(ctx: &Context, msg: &Message) {
     if let Some(guild) = msg.guild(ctx).await {
         let content = &msg.content;
-        if msg.mentions_user_id(683530527239962627) {
-            send_alert(ctx, msg, &msg.author, "Banned", &guild.name, "\"Pinging the Co-Owners Or the Owner will result in a temp ban for 1 week.\"").await;
-        }
+        // if msg.mentions_user_id(683530527239962627) {
+        //     send_alert(ctx, msg, &msg.author, "Banned", &guild.name, "\"Pinging the Co-Owners Or the Owner will result in a temp ban for 1 week.\"").await;
+        // }
 
         match get_custom_reaction(guild, content).await {
             Ok(Some(cr)) => {
