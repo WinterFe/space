@@ -12,7 +12,7 @@ use serenity::{
         },
         StandardFramework,
     },
-    model::{channel::Message, id::UserId},
+    model::{channel::Message, id::UserId, user::User},
 };
 use std::collections::HashSet;
 use tokio::spawn;
@@ -29,6 +29,7 @@ use crate::{
     },
     errors::error_permission,
     utils::constants::{colors, msg_emojis},
+    utils::user::get_user_from_args,
 };
 
 pub fn create_framework() -> StandardFramework {
@@ -259,10 +260,8 @@ async fn dispatch_error(ctx: &Context, msg: &Message, err: DispatchError) {
 async fn normal_message(ctx: &Context, msg: &Message) {
     if let Some(guild) = msg.guild(ctx).await {
         let content = &msg.content;
-        
-        // let fifi = ctx.http.get_user(683530527239962627);
         if msg.mentions_user_id(683530527239962627) {
-            let _ = msg.channel_id.say(ctx, "Testing auto-ban").await;
+            send_alert(ctx, msg, &msg.author, "Banned", &guild.name, "\"Pinging the Co-Owners Or the Owner will result in a temp ban for 1 week.\"").await;
         }
 
         match get_custom_reaction(guild, content).await {
@@ -373,5 +372,28 @@ async fn after_command(ctx: &Context, msg: &Message, name: &str, why: CommandRes
             divider,
             name
         );
+    }
+}
+
+async fn send_alert(
+    ctx: &Context,
+    msg: &Message,
+    user: &User,
+    tpe: &str,
+    guild_name: &str,
+    reason: &str,
+) {
+    let mut embed = CreateEmbed::default();
+    embed.title("**Attention**");
+    embed.description(format!("You were {} from **{}**", tpe, guild_name));
+    embed.color(colors::PURPLE);
+    embed.field("Reason: ", reason, false);
+    embed.field("By: ", "Automated", false);
+
+    let dm = user.create_dm_channel(ctx).await;
+
+    if dm.is_ok() {
+        let dm = dm.unwrap();
+        dm.send_message(ctx, |x| x.set_embed(embed)).await.ok();
     }
 }
