@@ -45,7 +45,7 @@ async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
     if author_role > member_role && bot_role > member_role {
         send_alert(ctx, msg, &user, "kicked", &guild.name, reason).await;
-        match guild.kick_with_reason(ctx, &user, reason).await {
+        match guild.kick_with_reason(ctx, &user.id, reason).await {
             Ok(_) => {
                 let mut embed = CreateEmbed::default();
                 embed.description(format!(
