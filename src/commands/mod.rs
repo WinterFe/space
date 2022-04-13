@@ -1,7 +1,6 @@
 mod image;
-mod util;
 mod moderation;
-
+mod util;
 use rand::{thread_rng, Rng};
 use serenity::{
     builder::{CreateEmbed, CreateEmbedFooter},
@@ -77,10 +76,18 @@ async fn help(
     _: HashSet<UserId>,
 ) -> CommandResult {
     if args.is_empty() {
+        let images = vec![
+            "https://lunardev.group/media/space/1.gif",
+            "https://lunardev.group/media/space/2.gif",
+            "https://lunardev.group/media/space/3.gif",
+        ];
+
+        let random = thread_rng().gen_range(0..images.len());
+
         let mut embed = CreateEmbed::default();
         embed.title("Available Commands");
         embed.description("To get more info on a command, type `help {command}`");
-        embed.image("https://lunardev.group/spEm.gif");
+        embed.image(images[random]);
         embed.color(colors::PINK);
 
         for group in groups.iter() {
@@ -121,8 +128,16 @@ async fn help(
         let mut embed = CreateEmbed::default();
         embed.color(colors::PURPLE);
 
+        let images = vec![
+            "https://lunardev.group/media/space/1.gif",
+            "https://lunardev.group/media/space/2.gif",
+            "https://lunardev.group/media/space/3.gif",
+        ];
+
+        let random = thread_rng().gen_range(0..images.len());
+
         if cmd_name == "help" {
-            embed.image("https://lunardev.group/spEm.gif");
+            embed.image(images[random]);
             embed.title("More info for help");
             embed.description("The help command provides a list of all usable commands.");
             embed.field("Use", format!("`{0}help <command>*`", prefix), false);
@@ -171,7 +186,9 @@ async fn help(
                     }
 
                     let images = vec![
-                        "https://lunardev.group/spEm.gif",
+                        "https://lunardev.group/media/space/1.gif",
+                        "https://lunardev.group/media/space/2.gif",
+                        "https://lunardev.group/media/space/3.gif",
                     ];
 
                     let random = thread_rng().gen_range(0..images.len());
