@@ -42,6 +42,7 @@ async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let bot_role =
         get_user_role_position(ctx, &guild, &ctx.cache.current_user().await.into()).await?;
 
+
     if author_role > member_role && bot_role > member_role {
         send_alert(ctx, msg, &user, "kicked", &guild.name, reason).await;
         match guild.kick_with_reason(ctx, &user, reason).await {
@@ -57,7 +58,7 @@ async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
                     .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
                     .await?;
             }
-            Err(err) => return Err(err.into()),
+            Err(error) => { println!("Oh noes: {}", error); }
         };
     } else {
         let mut embed = CreateEmbed::default();
