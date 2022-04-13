@@ -60,7 +60,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>>{
         .expect("[BOT] Failed to start.");
 
 
-    // database::create_database().await?;
+    database::create_database().await?;
     // let lava_client = LavalinkClient::builder(bot_id, SpaceConfig::get_token())
     //     .set_host("127.0.0.1")
     //     .set_password("root")

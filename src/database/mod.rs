@@ -21,7 +21,6 @@ pub async fn get_database_connection() -> Result<PooledConn, Error> {
                     .ip_or_hostname(Some(format!("{}", SpaceConfig::get_database_host())))
                     .pass(Some(format!("{}", SpaceConfig::get_database_pass())))
                     .user(Some(format!("{}", SpaceConfig::get_database_user())))
-                    .tcp_port(5432)
                     .db_name(Some(format!("{}", SpaceConfig::get_database_name())));
 
                 let pool = Pool::new(opts)?;
@@ -49,7 +48,7 @@ pub async fn create_database() -> Result<(), Error> {
 
                     let pool = Pool::new(opts)?;
                     let mut conn = pool.get_conn()?;
-                    conn.query_drop(r"CREATE DATABASE IF NOT EXISTS Space")?;
+                    conn.query_drop(r"CREATE DATABASE IF NOT EXISTS space")?;
 
                     get_database_connection().await?
                 } else {

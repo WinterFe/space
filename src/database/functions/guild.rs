@@ -50,33 +50,6 @@ pub async fn get_db_guild(guild: Guild) -> Result<DbGuild, CommandError> {
     }
 }
 
-pub async fn get_db_guild_c(guild: Guild) -> Result<DbGuild, CommandError> {
-    let mut conn = get_database_connection().await?;
-
-    let mut result: Vec<DbGuild> = conn.exec_map(
-        r"
-        SELECT * FROM guilds g
-        WHERE g.discord_id = :discord_id
-        LIMIT 1
-    ",
-        params! {
-            "discord_id" => guild.id.to_string()
-        },
-        |(discord_id, name, prefix, guild_type)| DbGuild {
-            discord_id,
-            name,
-            prefix,
-            guild_type,
-        },
-    )?;
-
-    if let Some(db_guild) = result.pop() {
-        Ok(db_guild)
-    } else {
-        Err("[DB] Guild not registered.".into())
-    }
-}
-
 pub async fn set_prefix(guild: Guild, new_prefix: &str) -> CommandResult {
     let mut conn = get_database_connection().await?;
 
