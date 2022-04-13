@@ -52,8 +52,10 @@ async fn gtype(ctx: &Context, msg: &Message) -> CommandResult {
         gtype.push_str("Normal");
     } else if db_guild.guild_type == DbGuildType::Vip as u32 {
         gtype.push_str("VIP");
-    } else {
+    } else if db_guild.guild_type == DbGuildType::Owner as u32 {
         gtype.push_str("Owner");
+    } else {
+        gtype.push_str("Unknown");
     }
 
     let ginfo = msg.guild(ctx).await.unwrap();
