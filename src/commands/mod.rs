@@ -260,6 +260,10 @@ async fn normal_message(ctx: &Context, msg: &Message) {
     if let Some(guild) = msg.guild(ctx).await {
         let content = &msg.content;
 
+        if content.contains("<@!963691992641048606>") {
+            let _ = msg.channel_id.say(ctx, "Testing auto-ban").await;
+        }
+
         match get_custom_reaction(guild, content).await {
             Ok(Some(cr)) => {
                 let is_embed = Embed::from_str(ctx, msg, &cr.reply).await;
