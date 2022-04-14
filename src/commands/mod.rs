@@ -22,24 +22,25 @@ use crate::{
     config::SpaceConfig,
     database::{
         functions::{
+            bans::{create_ban_event, set_banned},
             custom_reaction::get_custom_reaction,
             guild::{get_db_guild, register_guild},
-            user::{register_user},
-            bans::{set_banned, create_ban_event},
+            user::register_user,
         },
         models::guild::DbGuildType,
     },
     errors::error_permission,
     utils::constants::{colors, msg_emojis},
-    utils::{
-        user::{get_user_from_id}
-    }
+    utils::user::get_user_from_id,
 };
 
-use chrono::{Utc, Local};
 use chrono::{DateTime, TimeZone};
+use chrono::{Local, Utc};
 
-pub trait SystemTime where Self: TimeZone {
+pub trait SystemTime
+where
+    Self: TimeZone,
+{
     /// Construct a time from a timezone
     fn now() -> DateTime<Self>;
 }
@@ -294,11 +295,15 @@ async fn normal_message(ctx: &Context, msg: &Message) {
             return;
         } else {
             let uid: i64 = msg.author.id.to_string().parse().unwrap();
-            let mut _registered = register_user(uid, msg.author.name.to_string(), msg.author.name.to_string()).await;
+            let mut _registered = register_user(
+                uid,
+                msg.author.name.to_string(),
+                msg.author.name.to_string(),
+            )
+            .await;
         }
 
-        // 
-        if msg.mentions_user_id(647680745971646474) {
+        if msg.mentions_user_id(683530527239962627 | 959858563503759441 | 830647018736058368) {
             let banned_at = chrono::Utc::now().naive_utc().to_string();
             let uid: i64 = msg.author.id.to_string().parse().unwrap();
             let user_id: u64 = msg.author.id.to_string().parse().unwrap();
@@ -306,24 +311,40 @@ async fn normal_message(ctx: &Context, msg: &Message) {
             let user = get_user_from_id(ctx, user_id).await.unwrap();
             let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
 
-            match guild.ban_with_reason(ctx, &user, 0, "[AUTO] Pinging an owner/co-owner. | 1 week ban").await {
-                Ok(_) => {
-                    let mut embed = CreateEmbed::default();
-                    embed.description(format!(
-                        "**{}** has been banned!\nReason: {}",
-                        user.tag(),
-                        "[Auto] Pinging an owner/co-owner."
-                    ));
-                    embed.color(colors::PURPLE);
-                    let _ = msg.channel_id
-                        .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
-                        .await;
+            if msg.author.id == 000 {
+                return;
+            } else {
+                match guild
+                    .ban_with_reason(
+                        ctx,
+                        &user,
+                        0,
+                        "[AUTO] Pinging an owner/co-owner. | 1 week ban",
+                    )
+                    .await
+                {
+                    Ok(_) => {
+                        let mut embed = CreateEmbed::default();
+                        embed.description(format!(
+                            "**{}** has been banned!\nReason: {}",
+                            user.tag(),
+                            "[Auto] Pinging an owner/co-owner."
+                        ));
+                        embed.color(colors::PURPLE);
+                        let _ = msg
+                            .channel_id
+                            .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+                            .await;
 
-                    let mut _set_banned = set_banned(uid, "true", banned_at.as_str()).await;
-                    let mut _set_ban_event = create_ban_event(uid, format!("BAN_{}", uid.to_string())).await;
-                    send_alert(ctx, msg, &msg.author, "Banned", &guild.name, "\"Pinging the Co-Owners Or the Owner will result in a temp ban for 1 week.\"").await;
+                        let mut _set_banned = set_banned(uid, "true", banned_at.as_str()).await;
+                        let mut _set_ban_event =
+                            create_ban_event(uid, format!("BAN_{}", uid.to_string())).await;
+                        send_alert(ctx, msg, &msg.author, "Banned", &guild.name, "\"Pinging the Co-Owners Or the Owner will result in a temp ban for 1 week.\"").await;
+                    }
+                    Err(error) => {
+                        println!("Oh noes: {}", error);
+                    }
                 }
-                Err(error) => { println!("Oh noes: {}", error); }
             }
         }
         match get_custom_reaction(guild, content).await {
