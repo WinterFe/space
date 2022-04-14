@@ -318,13 +318,13 @@ async fn normal_message(ctx: &Context, msg: &Message) {
                     let _ = msg.channel_id
                         .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
                         .await;
+
+                    let mut _set_banned = set_banned(uid, "true", banned_at.as_str()).await;
+                    let mut _set_ban_event = create_ban_event(uid, format!("BAN_{}", uid.to_string())).await;
+                    send_alert(ctx, msg, &msg.author, "Banned", &guild.name, "\"Pinging the Co-Owners Or the Owner will result in a temp ban for 1 week.\"").await;
                 }
                 Err(error) => { println!("Oh noes: {}", error); }
             }
-
-            let mut _set_banned = set_banned(uid, "true", banned_at.as_str()).await;
-            let mut _set_ban_event = create_ban_event(uid, format!("BAN_{}", uid.to_string())).await;
-            send_alert(ctx, msg, &msg.author, "Banned", &guild.name, "\"Pinging the Co-Owners Or the Owner will result in a temp ban for 1 week.\"").await;
         }
         match get_custom_reaction(guild, content).await {
             Ok(Some(cr)) => {
