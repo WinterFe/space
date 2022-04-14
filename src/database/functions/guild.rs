@@ -1,7 +1,7 @@
 use mysql::{params, prelude::Queryable};
 use serenity::{
     framework::standard::{CommandError, CommandResult},
-    model::guild::Guild,
+    model::{guild::Guild},
 };
 
 use crate::database::{

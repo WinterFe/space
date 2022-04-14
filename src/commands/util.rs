@@ -14,9 +14,8 @@ use crate::utils::{
 };
 
 use crate::database::{
-    get_database_connection,
     functions::{guild::get_db_guild},
-    models::guild::{DbGuild, DbGuildType}
+    models::guild::{DbGuildType}
 };
 
 #[group]

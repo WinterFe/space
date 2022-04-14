@@ -48,7 +48,7 @@ async fn kick(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
             Ok(_) => {
                 let mut embed = CreateEmbed::default();
                 embed.description(format!(
-                    "`{}` has been kicked!\nReason: {}",
+                    "**{}** has been kicked!\nReason: {}",
                     user.tag(),
                     reason
                 ));

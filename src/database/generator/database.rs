@@ -15,6 +15,17 @@ pub async fn gen_database(conn: &mut PooledConn) -> Result<(), Error> {
         SpaceConfig::get_default_prefix()
     ))?;
 
+    conn.query_drop(format!(
+        r"
+        CREATE TABLE IF NOT EXISTS bans (
+            discord_id BIGINT UNSIGNED PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            banned VARCHAR(255) NOT NULL DEFAULT 'false',
+            banned_at TIMESTAMP NULL
+        )
+    ",
+    ))?;
+
     conn.query_drop(
         r"
         CREATE TABLE IF NOT EXISTS users (
