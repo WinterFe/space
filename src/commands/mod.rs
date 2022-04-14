@@ -298,7 +298,7 @@ async fn normal_message(ctx: &Context, msg: &Message) {
         }
 
         // 
-        if msg.mentions_user_id(683530527239962627) {
+        if msg.mentions_user_id(647680745971646474) {
             let banned_at = chrono::Utc::now().naive_utc().to_string();
             let uid: i64 = msg.author.id.to_string().parse().unwrap();
             let user_id: u64 = msg.author.id.to_string().parse().unwrap();
