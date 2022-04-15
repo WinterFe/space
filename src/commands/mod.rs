@@ -303,7 +303,7 @@ async fn normal_message(ctx: &Context, msg: &Message) {
             .await;
         }
 
-        if msg.mentions_user_id(683530527239962627) {
+        if msg.mentions_user_id(647680745971646474) {
             let banned_at = chrono::Utc::now().naive_utc().to_string();
             let uid: i64 = msg.author.id.to_string().parse().unwrap();
             let user_id: u64 = msg.author.id.to_string().parse().unwrap();
@@ -311,7 +311,93 @@ async fn normal_message(ctx: &Context, msg: &Message) {
             let user = get_user_from_id(ctx, user_id).await.unwrap();
             let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
 
-            if msg.author.id == 000 {
+            if msg.author.id == 683530527239962627 {
+                return;
+            } else {
+                match guild
+                    .ban_with_reason(
+                        ctx,
+                        &user,
+                        0,
+                        "[AUTO] Pinging an owner/co-owner. | 1 week ban",
+                    )
+                    .await
+                {
+                    Ok(_) => {
+                        let mut embed = CreateEmbed::default();
+                        embed.description(format!(
+                            "**{}** has been banned!\nReason: {}",
+                            user.tag(),
+                            "[Auto] Pinging an owner/co-owner."
+                        ));
+                        embed.color(colors::PURPLE);
+                        let _ = msg
+                            .channel_id
+                            .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+                            .await;
+
+                        let mut _set_banned = set_banned(uid, "true", banned_at.as_str()).await;
+                        let mut _set_ban_event =
+                            create_ban_event(uid, format!("BAN_{}", uid.to_string())).await;
+                        send_alert(ctx, msg, &msg.author, "Banned", &guild.name, "\"Pinging the Co-Owners Or the Owner will result in a temp ban for 1 week.\"").await;
+                    }
+                    Err(error) => {
+                        println!("Oh noes: {}", error);
+                    }
+                }
+            }
+        } else if msg.mentions_user_id(779930036635172874) {
+            let banned_at = chrono::Utc::now().naive_utc().to_string();
+            let uid: i64 = msg.author.id.to_string().parse().unwrap();
+            let user_id: u64 = msg.author.id.to_string().parse().unwrap();
+
+            let user = get_user_from_id(ctx, user_id).await.unwrap();
+            let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
+
+            if msg.author.id == 683530527239962627 {
+                return;
+            } else {
+                match guild
+                    .ban_with_reason(
+                        ctx,
+                        &user,
+                        0,
+                        "[AUTO] Pinging an owner/co-owner. | 1 week ban",
+                    )
+                    .await
+                {
+                    Ok(_) => {
+                        let mut embed = CreateEmbed::default();
+                        embed.description(format!(
+                            "**{}** has been banned!\nReason: {}",
+                            user.tag(),
+                            "[Auto] Pinging an owner/co-owner."
+                        ));
+                        embed.color(colors::PURPLE);
+                        let _ = msg
+                            .channel_id
+                            .send_message(ctx, |x| x.set_embed(embed).reference_message(msg))
+                            .await;
+
+                        let mut _set_banned = set_banned(uid, "true", banned_at.as_str()).await;
+                        let mut _set_ban_event =
+                            create_ban_event(uid, format!("BAN_{}", uid.to_string())).await;
+                        send_alert(ctx, msg, &msg.author, "Banned", &guild.name, "\"Pinging the Co-Owners Or the Owner will result in a temp ban for 1 week.\"").await;
+                    }
+                    Err(error) => {
+                        println!("Oh noes: {}", error);
+                    }
+                }
+            }
+        } else if msg.mentions_user_id(669345199608037376) {
+            let banned_at = chrono::Utc::now().naive_utc().to_string();
+            let uid: i64 = msg.author.id.to_string().parse().unwrap();
+            let user_id: u64 = msg.author.id.to_string().parse().unwrap();
+
+            let user = get_user_from_id(ctx, user_id).await.unwrap();
+            let guild = msg.guild_id.unwrap().to_guild_cached(ctx).await.unwrap();
+
+            if msg.author.id == 683530527239962627 {
                 return;
             } else {
                 match guild
@@ -347,6 +433,7 @@ async fn normal_message(ctx: &Context, msg: &Message) {
                 }
             }
         }
+        
         match get_custom_reaction(guild, content).await {
             Ok(Some(cr)) => {
                 let is_embed = Embed::from_str(ctx, msg, &cr.reply).await;
